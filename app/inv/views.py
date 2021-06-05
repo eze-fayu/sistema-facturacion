@@ -15,7 +15,7 @@ class CategoriaView(LoginRequiredMixin, generic.ListView):
     context_object_name = "obj"
     login_url = "bases:login"
     
-class CategoriaNew(LoginRequiredMixin, generic,CreateView):
+class CategoriaNew(LoginRequiredMixin, generic.CreateView):
     model = Categoria
     template_name='inv/categoria_form.html'
     context_object_name = 'obj'
