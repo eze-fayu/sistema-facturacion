@@ -16,7 +16,7 @@
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                 aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones:</div>
-                <a class="dropdown-item" href="{% url 'inv:categoria_new' %}"><i class="far fa-calndar-plus"></i> Nueva</a>
+                <a class="dropdown-item" href="{% url 'inv:categoria_new' %}"><i class="far fa-calendar-plus"></i> Nueva</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Something else here</a>
@@ -35,7 +35,7 @@
                     <th>Estado</th>
                     <th>Fecha Creado</th>
                     <th>Fecha Modif.</th>
-                    <th class="all">Acciones</th>
+                    <th class="all">Acciones</th>  <!-- clase all hace que se muestre siempre -->
                 </thead>
                 <tbody>
                     {% for item in obj %}
@@ -43,7 +43,7 @@
                         <td>{{ item.id }}</td>
                         <td>{{ item.descripcion }}</td>
                         <td>{{ item.estado }}</td>
-                        <td>{{ item.fc | date:"d/m/Y H:i:s" }}</td>
+                        <td>{{ item.fc | date:"d/m/Y H:i:s" }}</td>   <!-- con filtro para formatear la fecha -->
                         <td>{{ item.fm }}</td>
                         <td>
                             <a href="#" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a>
