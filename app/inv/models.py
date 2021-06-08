@@ -11,10 +11,10 @@ class Categoria(ClaseModelo):
     def __str__(self):
         return '{}'.format(self.descripcion)
     
-    # sobreescribo el metodo save para que la descripcion este toda en mayuscula
+    # sobreescribo el metodo save para que la descripcion este toda en mayuscula.
     def save(self):
         self.descripcion = self.descripcion.upper()
-        super(Categoria, self).save
+        super(Categoria, self).save()
     
     # como se va a llamar cuando es plural
     class Meta:
