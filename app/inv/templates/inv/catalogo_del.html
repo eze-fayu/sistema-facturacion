@@ -13,11 +13,11 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">¿Eliminar {{ obj.descripcion }}</div>
-                        <button type="submit" class="btn btn-danger"><i class="far fa-question-circle"></i> Si, Eliminar</button>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">¿Eliminar/Inactivar {{ obj.descripcion }}</div>
+                        <button type="submit" class="btn btn-danger"><i class="far fa-question-circle"></i> Si, Confirmar</button>
                         <!-- <a href="{% url 'inv:categoria_list' %}" class="btn btn-success"><span class="fa fa-undo"></span> Cancelar</a> -->
                         <!-- ASI ME LLEVA A LA PAGINA DE LA QUE VIENE -->
-                        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success"><span class="fa fa-undo"></span> Cancelar</a>
+                        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success"><span class="fa fa-undo"></span> No, Cancelar</a>
                     </div>
                     <div class="col-auto">
                         <i class="far fa-question-circle fa-2x text-gray-300"></i>
