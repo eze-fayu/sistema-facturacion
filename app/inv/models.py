@@ -57,7 +57,7 @@ class Marca(ClaseModelo):
         
 class Um(ClaseModelo):
     # el campo id lo crea por defecto django
-    descripcion = models.CharField(max_length=50, help_text='Marca', unique=True)
+    descripcion = models.CharField(max_length=50, help_text='Unidad Medida', unique=True)
     
     # sobreescribo el metodo str para que cambie lo que muestra
     def __str__(self):
@@ -71,3 +71,28 @@ class Um(ClaseModelo):
     # como se va a llamar cuando es plural
     class Meta:
         verbose_name_plural = 'Unidades de Medida'
+        
+class Productos(ClaseModelo):
+    codigo = models.CharField(max_length=50, help_text='Codigo de Producto', unique=True)
+    codigo_barra = models.CharField(max_length=13)
+    descripcion = models.CharField(max_length=200, help_text='Desc. del Producto')
+    precio = models.FloatField(default=0)
+    existencia = models.IntegerField(default=0)
+    ultima_compra = models.DateField(null=True, blank=True)
+    
+    marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
+    unidad_medida = models.ForeignKey(Um, on_delete=models.CASCADE)
+    subcategoria = models.ForeignKey(SubCategoria, on_delete=models.CASCADE)
+    
+    # sobreescribo el metodo str para que cambie lo que muestra
+    def __str__(self):
+        return '{}'.format(self.descripcion)
+    
+    # sobreescribo el metodo save para que la descripcion este toda en mayuscula.
+    def save(self):
+        self.descripcion = self.descripcion.upper()
+        super(Um, self).save()
+    
+    # como se va a llamar cuando es plural
+    class Meta:
+        verbose_name_plural = 'Productos'
