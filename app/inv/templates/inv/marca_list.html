@@ -47,8 +47,12 @@
                         <td>{{ item.fm | date:"d/m/Y H:i:s" }}</td>
                         <td>
                             <a href="{% url 'inv:marca_edit' item.id %}" class="btn btn-primary btn-circle" role="button"><i class="fas fa-edit"></i></a>
-                            <a href="{% url 'inv:marca_del' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="fas fa-check"></i></a>
-                            <a href="{% url 'inv:marca_inactivar' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="fas fa-trash-alt"></i></a>
+                            {% if item.estado == True %}
+                                <a href="{% url 'inv:marca_inactivar' item.id %}" class="btn btn-success btn-circle" role="button"><i class="fas fa-check"></i></a>
+                            {% else %}
+                                <a href="{% url 'inv:marca_inactivar' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="fas fa-check"></i></a>
+                            {% endif %}    
+                            <a href="{% url 'inv:marca_del' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
