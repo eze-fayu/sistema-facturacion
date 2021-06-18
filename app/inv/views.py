@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Categoria, SubCategoria, Marca, Um
-from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UmForm
+from .models import Categoria, SubCategoria, Marca, Um, Productos
+from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UmForm, ProductosForm
 from django.urls import reverse_lazy
 
 
@@ -28,8 +28,7 @@ class CategoriaNew(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.uc = self.request.user
         return super().form_valid(form)
-    
-    
+      
 class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
     model = Categoria
     template_name='inv/categoria_form.html'
@@ -172,7 +171,6 @@ class MarcaDel(LoginRequiredMixin, generic.DeleteView):
     context_object_name = 'obj'
     success_url = reverse_lazy('inv:marca_list')
     
-
 def marca_inactivar(request, id):
     marca = Marca.objects.filter(pk=id).first()
     contexto={}
@@ -235,7 +233,6 @@ class UmDel(LoginRequiredMixin, generic.DeleteView):
     context_object_name = 'obj'
     success_url = reverse_lazy('inv:um_list')
     
-
 def um_inactivar(request, id):
     um = Um.objects.filter(pk=id).first()
     contexto={}
@@ -256,5 +253,66 @@ def um_inactivar(request, id):
             um.estado=False
             um.save()      
             return redirect("inv:um_list")
+        
+    return render(request,template_name,contexto)
+
+# ################# PRODUCTO ####################
+
+class ProductosView(LoginRequiredMixin, generic.ListView):
+    model = Productos
+    template_name = "inv/producto_list.html"
+    context_object_name = "obj"
+    login_url = "bases:login"
+    
+class ProductosNew(LoginRequiredMixin, generic.CreateView):
+    model = Productos
+    template_name='inv/producto_form.html'
+    context_object_name = 'obj'
+    form_class = ProductosForm
+    success_url = reverse_lazy('inv:productos_list')
+    login_url = 'bases:login'
+    
+    def form_valid(self, form):
+        form.instance.uc = self.request.user
+        return super().form_valid(form)
+    
+class ProductosEdit(LoginRequiredMixin, generic.UpdateView):
+    model = Productos
+    template_name='inv/producto_form.html'
+    context_object_name = 'obj'
+    form_class = ProductosForm
+    success_url = reverse_lazy('inv:productos_list')
+    login_url = 'bases:login'
+    
+    def form_valid(self, form):
+        form.instance.producto = self.request.user.id
+        return super().form_valid(form)
+    
+class ProductosDel(LoginRequiredMixin, generic.DeleteView):
+    model = Productos
+    template_name='inv/catalogo_del.html'
+    context_object_name = 'obj'
+    success_url = reverse_lazy('inv:productos_list')
+    
+def productos_inactivar(request, id):
+    producto = Productos.objects.filter(pk=id).first()
+    contexto={}
+    template_name="inv/catalogo_del.html"
+        
+    if not producto:
+        return redirect("inv:productos_list")
+    
+    if request.method=="GET":
+        contexto={'obj':producto}
+        
+    if request.method=="POST":
+        if producto.estado==False:
+            producto.estado=True
+            producto.save()      
+            return redirect("inv:productos_list")
+        else:
+            producto.estado=False
+            producto.save()      
+            return redirect("inv:productos_list")
         
     return render(request,template_name,contexto)

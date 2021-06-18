@@ -74,6 +74,7 @@
                         <a class="collapse-item" href="{% url 'inv:subcategoria_list' %}">SubCategoria</a>
                         <a class="collapse-item" href="{% url 'inv:marca_list' %}">Marca</a>
                         <a class="collapse-item" href="{% url 'inv:um_list' %}">Unidad de Medida</a>
+                        <a class="collapse-item" href="{% url 'inv:productos_list' %}">Productos</a>
                     </div>
                 </div>
             </li>
@@ -424,6 +425,9 @@
         </div>
     </div>
 
+    <!-- PARA ABRIR EN POPUP -->
+    <DIV class="modal fade" id="popup"></DIV>
+
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'base/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'base/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -440,6 +444,31 @@
 
 
     {% block js_page %}{% endblock js_page %}
+    
+    <!-- PARA CONTROLAR LA VENTANA DE POPUP -->
+    {% block control_modal %}
+    
+        <script>
+            function abrir_modal(url)
+            {
+                $("#popup").load(url,function(){
+                    $(this).modal({
+                        backdrop:'static',
+                        keyboard: false
+                    })
+                    $(this).modal('show');
+                })
+                return false;
+            }
+
+            function cerrar_modal()
+            {
+                $('#popup').modal('hide');
+                return false;
+            }
+        </script>
+
+    {% endblock control_modal %}
 </body>
 
 </html>

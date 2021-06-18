@@ -1,0 +1,111 @@
+<!-- si es una pagina mas va esto -->
+<!-- {% extends 'base/base.html' %}
+{% block page_content %}
+{% endblock page_content %}
+
+{% block js_page %}
+{% endblock js_page %} -->
+
+<!--  si va en un popup agrega los primeros dos div y se agrega lo de role y action-->
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        {% if obj %}
+            <form method="POST" class="form-inline" role="form" action="{% url 'inv:productos_edit' obj.pk %}">
+        {% else %}
+            <form method="POST" class="form-inline" role="form" action="{% url 'inv:productos_new' obj.pk %}">
+        {% endif %}
+            {% csrf_token %}
+            <div class="col-xl-6 col-md-6 mb-6">
+                {% if obj %}
+                <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}
+                <div class="card border-left-primary shadow h-100 py-2">
+                {% endif %}
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    {% if obj %} Editar {% else %} Nuevo  {% endif %} Producto
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Subcategoria: </label>
+                                            {{ form.subcategoria}}
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Código: </label>                                
+                                            {{ form.codigo}}
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Producto: </label>                                
+                                            {{ form.descripcion }}
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Código de Barra: </label>                                    
+                                            {{ form.codigo_barra}}
+                                        </div>
+                                    </div>                              
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Marca: </label>                                    
+                                            {{ form.marca}}
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Unidad de Medida: </label>
+                                            {{ form.unidad_medida}}
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Precio: </label>                                    
+                                            {{ form.precio}}
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Existencia: </label>
+                                            {{ form.existencia}}
+                                        </div>
+                                    </div> 
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Ultima Compra: </label>
+                                            {{ form.ultima_compra}}
+                                        </div>
+                                    </div>                                                                                            
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label class='pr-2' for="id_estado">Estado: </label>                                
+                                            {{ form.estado}}
+                                        </div>
+                                    </div>  
+                                </div> 
+                                <!-- {{ form.as_p }} -->
+                                <div class="dropdown-divider"></div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span> Guardar</button>
+                                        <a href="{% url 'inv:productos_list' %}" class="btn btn-success"><span class="fa fa-undo"></span> Cancelar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

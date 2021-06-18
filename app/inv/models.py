@@ -83,7 +83,7 @@ class Productos(ClaseModelo):
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     unidad_medida = models.ForeignKey(Um, on_delete=models.CASCADE)
     subcategoria = models.ForeignKey(SubCategoria, on_delete=models.CASCADE)
-    
+       
     # sobreescribo el metodo str para que cambie lo que muestra
     def __str__(self):
         return '{}'.format(self.descripcion)
@@ -91,7 +91,7 @@ class Productos(ClaseModelo):
     # sobreescribo el metodo save para que la descripcion este toda en mayuscula.
     def save(self):
         self.descripcion = self.descripcion.upper()
-        super(Um, self).save()
+        super(Productos, self).save()
     
     # como se va a llamar cuando es plural
     class Meta:
