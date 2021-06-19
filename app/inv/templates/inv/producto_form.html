@@ -1,11 +1,8 @@
+{% extends 'base/base.html' %}
 
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        {% if obj %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_edit' obj.pk %}">
-        {% else %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_new' %}">
-        {% endif %}
+{% block page_content %}
+
+            <form method="POST"  class="form-inline">
                 {% csrf_token %}
                 <div class="col-xl-12 col-md-12 mb-12">
                     {% if obj %}
@@ -97,7 +94,18 @@
                     </div>
                 </div>
             </form>
-    </div>
-</div>
 
 
+
+{% endblock page_content %}
+
+{% block js_page %}
+
+    <script>
+        // llama a los plugin jquery del datatable
+        $(document).ready(function() {
+           $('.table').DataTable(); 
+        });
+    </script>
+
+{% endblock js_page %}
