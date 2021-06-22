@@ -1,8 +1,8 @@
-<div class="modal-dialog modal-sm">
+<div class="modal-dialog modal-m">
     <div class="modal-content">
         <form method="POST" class="form-inline">
             {% csrf_token %}
-            <div class="col-xl-6 col-md-6 mb-6">
+            <div class="col-xl-12 col-md-12 mb-12">
                 {% if obj %}
                 <div class="card border-left-danger shadow h-100 py-2">
                 {% else %}
@@ -11,16 +11,16 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">¿Eliminar/Inactivar {{ obj.descripcion }}</div>
-                                <button type="button" class="btn btn-danger"><i class="far fa-question-circle"></i> Si, Confirmar</button>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">¿Confirmar cambio de estado del Proveedor {{ obj.descripcion }}</div>
+                                <button type="button" class="btn btn-danger" id="btnInactivar"><i class="fas fa-question-circle"></i> Si, Confirmar</button>
                                 <!-- <a href="{% url 'inv:categoria_list' %}" class="btn btn-success"><span class="fa fa-undo"></span> Cancelar</a> -->
                                 <!-- ASI ME LLEVA A LA PAGINA DE LA QUE VIENE -->
                                 <!-- <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success"><span class="fa fa-undo"></span> No, Cancelar</a> -->
-                                <button type='button' class="btn btn-succes" onclick="return cerrar_modal()">No, Cancelar</button>
+                                <button type='button' class="btn btn-success" onclick="return cerrar_modal()"><span class="fa fa-undo"></span>No, Cancelar</button>
                             </div>
-                            <div class="col-auto">
+                            <!-- <div class="col-auto">
                                 <i class="far fa-question-circle fa-2x text-gray-300"></i>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -30,3 +30,41 @@
 </div>
 
 
+<script>
+    $(document).ready(function(){
+        var token= $('input[name=csrfmiddlewaretoken]').val();
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings){
+                if (!(/^http:.*/.test(settings.url) || /^http:.*/.test(settings.url))){
+                    xhr.setRequestHeader("X-CSRFToken", token);
+                }
+            }
+        });
+
+        $("#btnInactivar").click(function(e){
+            e.preventDefault();
+            var id = {{ obj.id }};
+            var template = "{% url 'cmp:proveedor_inactivar' obj.id %}";
+            var data = {"id":id};
+            data = JSON.stringify(data);
+
+            $.ajax({
+                type: "POST",
+                url: template,
+                data: data,
+                beforeSend: function(xhr, settings){
+                    $.ajaxSettings.beforeSend(xhr,settings);
+                },
+                success: function(response){
+                    console.log(response);
+                    cerrar_modal();
+                    alert(response);
+                },
+                error: function(jqXHR, textStatus, errorThrow){
+                    console.log(textStatus, errorThrow);
+                    cerrar_modal();
+                }
+            })
+        })
+    })
+</script>

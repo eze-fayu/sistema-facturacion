@@ -16,7 +16,7 @@
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                 aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones:</div>
-                <a class="dropdown-item" href="{% url 'inv:marca_new' %}"><i class="far fa-calendar-plus"></i> Nueva</a>
+                <a class="dropdown-item" href="#"  onclick="return abrir_modal('{% url 'inv:marca_new' %}')"><i class="far fa-calendar-plus"></i> Nuevo</a>
                 <!-- <a class="dropdown-item" href="#">Another action</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Something else here</a> -->
@@ -46,13 +46,17 @@
                         <td>{{ item.fc | date:"d/m/Y H:i:s" }}</td>   <!-- con filtro para formatear la fecha -->
                         <td>{{ item.fm | date:"d/m/Y H:i:s" }}</td>
                         <td>
-                            <a href="{% url 'inv:marca_edit' item.id %}" class="btn btn-primary btn-circle" role="button"><i class="fas fa-edit"></i></a>
+                            <a href="#"  onclick="return abrir_modal('{% url 'inv:marca_edit' item.id %}')" class="btn btn-primary btn-circle" role="button"><i class="fas fa-edit"></i></a>
                             {% if item.estado == True %}
-                                <a href="{% url 'inv:marca_inactivar' item.id %}" class="btn btn-success btn-circle" role="button"><i class="fas fa-check"></i></a>
-                            {% else %}
-                                <a href="{% url 'inv:marca_inactivar' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="fas fa-check"></i></a>
-                            {% endif %}    
-                            <a href="{% url 'inv:marca_del' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="fas fa-trash-alt"></i></a>
+                                <!-- <a href="{% url 'inv:productos_inactivar' item.id %}" class="btn btn-success btn-circle" role="button"><i class="fas fa-check"></i></a> -->
+                                <a href="#"  onclick="return abrir_modal('{% url 'inv:marca_inactivar' item.id %}')" class="btn btn-success btn-circle" role="button"><i class="fas fa-check"></i></a>
+                                {% else %}
+                                <a href="#"  onclick="return abrir_modal('{% url 'inv:marca_inactivar' item.id %}')" class="btn btn-warning btn-circle" role="button"><i class="fas fa-check"></i></a>
+                                <!-- <a href="{% url 'inv:productos_inactivar' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="fas fa-check"></i></a> -->
+                            {% endif %}
+                                <!-- <a href="{% url 'inv:productos_del' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="fas fa-trash-alt"></i></a> -->
+                            <a href="#"  onclick="return abrir_modal('{% url 'inv:marca_del' item.id %}')" class="btn btn-danger btn-circle" role="button"><i class="fas fa-trash-alt"></i></a>
+
                         </td>
                     </tr>
                     {% endfor %}

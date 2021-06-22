@@ -1,9 +1,9 @@
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        
-        {% if '/inv/categoria/' in request.META.HTTP_REFERER %}
+
+        {% if '/inv/categorias/' in request.META.HTTP_REFERER %}
             <form method="POST" role="form" class="form-inline" action="{% url 'inv:categoria_inactivar' obj.id %}">
-        {% elif '/inv/subcategoria/' in request.META.HTTP_REFERER %}
+        {% elif '/inv/subcategorias/' in request.META.HTTP_REFERER %}
             <form method="POST" role="form" class="form-inline" action="{% url 'inv:subcategoria_inactivar' obj.id %}">
         {% elif '/inv/um/' in request.META.HTTP_REFERER %}
             <form method="POST" role="form" class="form-inline" action="{% url 'inv:um_inactivar' obj.id %}">
@@ -12,9 +12,9 @@
         {% elif '/inv/producto/' in request.META.HTTP_REFERER %}
             <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_inactivar' obj.id %}">
         {% endif %}
+        
 
-
-        <!-- <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_del' obj.id %}"> -->
+        <!-- <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_inactivar' obj.id %}"> -->
             {% csrf_token %}
             <div class="col-xl-6 col-md-6 mb-6">
                 {% if obj %}
@@ -25,12 +25,13 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">¿Eliminar {{ obj.descripcion }}?</div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">¿Cambiar estado de {{ obj.descripcion }}?</div>
                                 <button type="submit" class="btn btn-danger"><i class="far fa-question-circle"></i> Si, Confirmar</button>
                                 <!-- <a href="{% url 'inv:categoria_list' %}" class="btn btn-success"><span class="fa fa-undo"></span> Cancelar</a> -->
                                 <!-- ASI ME LLEVA A LA PAGINA DE LA QUE VIENE -->
                                 <!-- <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success"><span class="fa fa-undo"></span> No, Cancelar</a> -->
                                 <button type='button' class="btn btn-success" onclick="return cerrar_modal()"><span class="fa fa-undo"></span>No, Cancelar</button>
+                                <!-- <span>{{ request.META.HTTP_REFERER }}</span> -->
                             </div>
                             <div class="col-auto">
                                 <i class="far fa-question-circle fa-2x text-gray-300"></i>

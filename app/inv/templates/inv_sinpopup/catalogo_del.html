@@ -1,20 +1,14 @@
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        
-        {% if '/inv/categoria/' in request.META.HTTP_REFERER %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:categoria_inactivar' obj.id %}">
-        {% elif '/inv/subcategoria/' in request.META.HTTP_REFERER %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:subcategoria_inactivar' obj.id %}">
-        {% elif '/inv/um/' in request.META.HTTP_REFERER %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:um_inactivar' obj.id %}">
-        {% elif '/inv/marca/' in request.META.HTTP_REFERER %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:marca_inactivar' obj.id %}">
-        {% elif '/inv/producto/' in request.META.HTTP_REFERER %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_inactivar' obj.id %}">
-        {% endif %}
+<!-- 
+        {% if obj %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_edit' obj.pk %}">
+        {% else %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_new' %}">
+        {% endif %} -->
 
 
-        <!-- <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_del' obj.id %}"> -->
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_del' obj.id %}">
             {% csrf_token %}
             <div class="col-xl-6 col-md-6 mb-6">
                 {% if obj %}

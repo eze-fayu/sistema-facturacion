@@ -89,10 +89,20 @@ class ProductosForm(forms.ModelForm):
 
     class Meta:
         model = Productos
-        fields = ['descripcion', 'estado', 'codigo', \
-            'codigo_barra', 'precio', 'existencia', \
-            'ultima_compra', 'marca', 'subcategoria', 'unidad_medida']
-        labels = {'descripcion':"Producto",
+        fields = [
+            'descripcion', \
+            'estado', \
+            'codigo', \
+            'codigo_barra', \
+            'precio', \
+            'existencia', \
+            'ultima_compra', \
+            'marca', \
+            'subcategoria', \
+            'unidad_medida', \
+            ]
+        labels = {
+                'descripcion':"Producto",
                 "estado": "Estado",
                 'codigo': 'Código',
                 'codigo_barra': 'Código de Barras',

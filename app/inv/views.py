@@ -4,6 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Categoria, SubCategoria, Marca, Um, Productos
 from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UmForm, ProductosForm
 from django.urls import reverse_lazy
+from django.http import HttpResponse #, JsonResponse
+# import json
+
 
 
 # Create your views here.
@@ -50,7 +53,7 @@ class CategoriaDel(LoginRequiredMixin, generic.DeleteView):
 def categoria_inactivar(request, id):
     categoria = Categoria.objects.filter(pk=id).first()
     contexto={}
-    template_name="inv/catalogo_del.html"
+    template_name="inv/catalogo_inac.html"
         
     if not categoria:
         return redirect("inv:categoria_list")
@@ -113,7 +116,7 @@ class SubCategoriaDel(LoginRequiredMixin, generic.DeleteView):
 def subcategoria_inactivar(request, id):
     subcategoria = SubCategoria.objects.filter(pk=id).first()
     contexto={}
-    template_name="inv/catalogo_del.html"
+    template_name="inv/catalogo_inac.html"
         
     if not subcategoria:
         return redirect("inv:subcategoria_list")
@@ -174,7 +177,7 @@ class MarcaDel(LoginRequiredMixin, generic.DeleteView):
 def marca_inactivar(request, id):
     marca = Marca.objects.filter(pk=id).first()
     contexto={}
-    template_name="inv/catalogo_del.html"
+    template_name="inv/catalogo_inac.html"
         
     if not marca:
         return redirect("inv:marca_list")
@@ -236,7 +239,7 @@ class UmDel(LoginRequiredMixin, generic.DeleteView):
 def um_inactivar(request, id):
     um = Um.objects.filter(pk=id).first()
     contexto={}
-    template_name="inv/catalogo_del.html"
+    template_name="inv/catalogo_inac.html"
         
     if not um:
         return redirect("inv:um_list")
@@ -266,7 +269,7 @@ class ProductosView(LoginRequiredMixin, generic.ListView):
     
 class ProductosNew(LoginRequiredMixin, generic.CreateView):
     model = Productos
-    template_name='inv/producto_form.html'
+    template_name='inv/producto_form_popup.html'
     context_object_name = 'obj'
     form_class = ProductosForm
     success_url = reverse_lazy('inv:productos_list')
@@ -278,7 +281,7 @@ class ProductosNew(LoginRequiredMixin, generic.CreateView):
     
 class ProductosEdit(LoginRequiredMixin, generic.UpdateView):
     model = Productos
-    template_name='inv/producto_form.html'
+    template_name='inv/producto_form_popup.html'
     context_object_name = 'obj'
     form_class = ProductosForm
     success_url = reverse_lazy('inv:productos_list')
@@ -297,7 +300,7 @@ class ProductosDel(LoginRequiredMixin, generic.DeleteView):
 def productos_inactivar(request, id):
     producto = Productos.objects.filter(pk=id).first()
     contexto={}
-    template_name="inv/catalogo_del.html"
+    template_name="inv/catalogo_inac.html"
         
     if not producto:
         return redirect("inv:productos_list")

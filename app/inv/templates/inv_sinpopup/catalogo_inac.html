@@ -1,9 +1,14 @@
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
+<!-- 
+        {% if obj %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_edit' obj.pk %}">
+        {% else %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_new' %}">
+        {% endif %} -->
 
 
-
-        <form method="POST" role="form" class="form-inline" action="{% url 'inv:catalogo_del' %}">
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_inactivar' obj.id %}">
             {% csrf_token %}
             <div class="col-xl-6 col-md-6 mb-6">
                 {% if obj %}
@@ -14,11 +19,12 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">¿Eliminar/Inactivar {{ obj.descripcion }}</div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">¿Cambiar estado de {{ obj.descripcion }}?</div>
                                 <button type="submit" class="btn btn-danger"><i class="far fa-question-circle"></i> Si, Confirmar</button>
                                 <!-- <a href="{% url 'inv:categoria_list' %}" class="btn btn-success"><span class="fa fa-undo"></span> Cancelar</a> -->
                                 <!-- ASI ME LLEVA A LA PAGINA DE LA QUE VIENE -->
-                                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success"><span class="fa fa-undo"></span> No, Cancelar</a>
+                                <!-- <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success"><span class="fa fa-undo"></span> No, Cancelar</a> -->
+                                <button type='button' class="btn btn-success" onclick="return cerrar_modal()"><span class="fa fa-undo"></span>No, Cancelar</button>
                             </div>
                             <div class="col-auto">
                                 <i class="far fa-question-circle fa-2x text-gray-300"></i>
