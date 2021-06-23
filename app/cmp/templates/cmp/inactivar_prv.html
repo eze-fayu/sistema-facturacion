@@ -3,11 +3,11 @@
         <form method="POST" class="form-inline">
             {% csrf_token %}
             <div class="col-xl-12 col-md-12 mb-12">
-                {% if obj %}
+                <!-- {% if obj %} -->
                 <div class="card border-left-danger shadow h-100 py-2">
-                {% else %}
+                <!-- {% else %}
                 <div class="card border-left-primary shadow h-100 py-2">
-                {% endif %}
+                {% endif %} -->
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -58,13 +58,16 @@
                 success: function(response){
                     console.log(response);
                     cerrar_modal();
-                    alert(response);
+                    //alert(response);
+                    var tipo=(response.startsWith('Proveedor no existe') ? 'red':'green' );
+                    mensaje(response, tipo);
                 },
                 error: function(jqXHR, textStatus, errorThrow){
                     console.log(textStatus, errorThrow);
+                    mensaje(errorThrow,'red'); 
                     cerrar_modal();
                 }
-            })
-        })
-    })
+            });
+        });
+    });
 </script>

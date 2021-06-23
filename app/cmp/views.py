@@ -6,26 +6,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 import json
 
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+
 from .models import Proveedor
 from cmp.forms import ProveedorForm
 # Create your views here.
 
 
-class ProveedorView(LoginRequiredMixin, generic.ListView):
+class ProveedorView(SuccessMessageMixin, LoginRequiredMixin, generic.ListView):
     model = Proveedor
     template_name = "cmp/proveedor_list.html"
     context_object_name = "obj"
     login_url = 'bases/login'
     # permission_required="cmp.view_proveedor"
 
-class ProveedorNew(LoginRequiredMixin, generic.CreateView):
+class ProveedorNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
     model=Proveedor
     template_name="cmp/proveedor_form.html"
     context_object_name = 'obj'
     form_class=ProveedorForm
     success_url= reverse_lazy("cmp:proveedor_list")
     login_url = 'bases/login'
-    # success_message="Proveedor Nuevo"
+    success_message="Proveedor creado exitosamente"
     # permission_required="cmp.add_proveedor"
 
     def form_valid(self, form):
@@ -34,20 +37,27 @@ class ProveedorNew(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
 
-class ProveedorEdit(LoginRequiredMixin, generic.UpdateView):
+class ProveedorEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
     model=Proveedor
     template_name="cmp/proveedor_form.html"
     context_object_name = 'obj'
     form_class=ProveedorForm
     success_url= reverse_lazy("cmp:proveedor_list")
     login_url = 'bases/login'
-    # success_message="Proveedor Editado"
+    success_message="Proveedor Editado exitosamente"
     # permission_required="cmp.change_proveedor"
 
     def form_valid(self, form):
         form.instance.um = self.request.user.id
         print(self.request.user.id)
         return super().form_valid(form)
+    
+# class ProveedorDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
+#     model = Proveedor
+#     template_name='cmp/catalogo_cmp_del.html'
+#     context_object_name = 'obj'
+#     success_url = reverse_lazy('cmp:proveedor')
+#     success_message='Producto eliminado exitosamente'
 
 
 def proveedorInactivar(request,id):
@@ -68,11 +78,13 @@ def proveedorInactivar(request,id):
         if prv.estado==True:    
             prv.estado=False
             prv.save()
+            # messages.success(request, 'Proveedor Activado.') 
             contexto={'obj':'OK'}
             return HttpResponse('Proveedor Inactivado')
         else:
             prv.estado=True
             prv.save()
+            # messages.error(request, 'Proveedor Desactivado.') 
             contexto={'obj':'OK'}
             return HttpResponse('Proveedor Activado')
 
