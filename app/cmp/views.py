@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.views import generic
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 import datetime
 import json
 
@@ -14,14 +14,15 @@ from cmp.forms import ProveedorForm
 # Create your views here.
 
 
-class ProveedorView(SuccessMessageMixin, LoginRequiredMixin, generic.ListView):
+class ProveedorView(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+    permission_required='cmp.view_proveedores'
     model = Proveedor
     template_name = "cmp/proveedor_list.html"
     context_object_name = "obj"
     login_url = 'bases/login'
     # permission_required="cmp.view_proveedor"
 
-class ProveedorNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+class ProveedorNew(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model=Proveedor
     template_name="cmp/proveedor_form.html"
     context_object_name = 'obj'
@@ -37,7 +38,7 @@ class ProveedorNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
 
-class ProveedorEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
+class ProveedorEdit(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model=Proveedor
     template_name="cmp/proveedor_form.html"
     context_object_name = 'obj'
@@ -52,12 +53,12 @@ class ProveedorEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView)
         print(self.request.user.id)
         return super().form_valid(form)
     
-# class ProveedorDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
-#     model = Proveedor
-#     template_name='cmp/catalogo_cmp_del.html'
-#     context_object_name = 'obj'
-#     success_url = reverse_lazy('cmp:proveedor')
-#     success_message='Producto eliminado exitosamente'
+class ProveedorDel(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    model = Proveedor
+    template_name='cmp/catalogo_cmp_del.html'
+    context_object_name = 'obj'
+    success_url = reverse_lazy('cmp:proveedor')
+    success_message='Producto eliminado exitosamente'
 
 
 def proveedorInactivar(request,id):

@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Categoria, SubCategoria, Marca, Um, Productos
 from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UmForm, ProductosForm
 from django.urls import reverse_lazy
 from django.http import HttpResponse #, JsonResponse
 # import json
-
+from bases.views import SinPrivilegios
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -17,13 +17,15 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 # ################# CATEGORIA ####################
 
-class CategoriaView(LoginRequiredMixin, generic.ListView):
+class CategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+    permission_required='inv.view_categoria'
     model = Categoria
     template_name = "inv/categoria_list.html"
     context_object_name = "obj"
     login_url = "bases:login"
     
-class CategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+class CategoriaNew(SuccessMessageMixin, PermissionRequiredMixin, LoginRequiredMixin, generic.CreateView):
+    permission_required='inv.add_categoria'
     model = Categoria
     template_name='inv/categoria_form.html'
     context_object_name = 'obj'
@@ -36,7 +38,8 @@ class CategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
         form.instance.uc = self.request.user
         return super().form_valid(form)
       
-class CategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
+class CategoriaEdit(SuccessMessageMixin, PermissionRequiredMixin, LoginRequiredMixin, generic.UpdateView):
+    permission_required='inv.change_categoria'
     model = Categoria
     template_name='inv/categoria_form.html'
     context_object_name = 'obj'
@@ -49,7 +52,8 @@ class CategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView)
         form.instance.um = self.request.user.id
         return super().form_valid(form)
     
-class CategoriaDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
+class CategoriaDel(SuccessMessageMixin, PermissionRequiredMixin, LoginRequiredMixin, generic.DeleteView):
+    permission_required='inv.delete_categoria'
     model = Categoria
     template_name='inv/catalogo_del.html'
     context_object_name = 'obj'
@@ -85,13 +89,15 @@ def categoria_inactivar(request, id):
 # ################# SUBCATEGORIA ####################
     
     
-class SubCategoriaView(LoginRequiredMixin, generic.ListView):
+class SubCategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+    permission_required='inv.view_subcategoria'
     model = SubCategoria
     template_name = "inv/subcategoria_list.html"
     context_object_name = "obj"
     login_url = "bases:login"
     
-class SubCategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+class SubCategoriaNew(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    permission_required='inv.add_subcategoria'
     model = SubCategoria
     template_name='inv/subcategoria_form.html'
     context_object_name = 'obj'
@@ -104,7 +110,8 @@ class SubCategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateVie
         form.instance.uc = self.request.user
         return super().form_valid(form)
     
-class SubCategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
+class SubCategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    permission_required='inv.change_subcategoria'
     model = SubCategoria
     template_name='inv/subcategoria_form.html'
     context_object_name = 'obj'
@@ -118,7 +125,8 @@ class SubCategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateVi
         form.instance.um = self.request.user.id
         return super().form_valid(form)
     
-class SubCategoriaDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
+class SubCategoriaDel(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    permission_required='inv.delete_subcategoria'
     model = SubCategoria
     template_name='inv/catalogo_del.html'
     context_object_name = 'obj'
@@ -152,13 +160,15 @@ def subcategoria_inactivar(request, id):
     
 # ################# MARCA ####################
 
-class MarcaView(LoginRequiredMixin, generic.ListView):
+class MarcaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+    permission_required='inv.view_marca'
     model = Marca
     template_name = "inv/marca_list.html"
     context_object_name = "obj"
     login_url = "bases:login"
     
-class MarcaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+class MarcaNew(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    permission_required='inv.add_marca'
     model = Marca
     template_name='inv/marca_form.html'
     context_object_name = 'obj'
@@ -171,7 +181,8 @@ class MarcaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
         form.instance.uc = self.request.user
         return super().form_valid(form)
     
-class MarcaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
+class MarcaEdit(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    permission_required='inv.change_marca'
     model = Marca
     template_name='inv/marca_form.html'
     context_object_name = 'obj'
@@ -184,7 +195,8 @@ class MarcaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
         form.instance.um = self.request.user.id
         return super().form_valid(form)
     
-class MarcaDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
+class MarcaDel(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    permission_required='inv.delete_marca'
     model = Marca
     template_name='inv/catalogo_del.html'
     context_object_name = 'obj'
@@ -219,13 +231,15 @@ def marca_inactivar(request, id):
 
 # ################# UNIDAD MEDIDA ####################
 
-class UmView(LoginRequiredMixin, generic.ListView):
+class UmView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+    permission_required='inv.view_um'
     model = Um
     template_name = "inv/um_list.html"
     context_object_name = "obj"
     login_url = "bases:login"
     
-class UmNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+class UmNew(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    permission_required='inv.add_um'
     model = Um
     template_name='inv/um_form.html'
     context_object_name = 'obj'
@@ -238,7 +252,8 @@ class UmNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
         form.instance.uc = self.request.user
         return super().form_valid(form)
     
-class UmEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
+class UmEdit(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    permission_required='inv.change_um'
     model = Um
     template_name='inv/um_form.html'
     context_object_name = 'obj'
@@ -251,7 +266,8 @@ class UmEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
         form.instance.um = self.request.user.id
         return super().form_valid(form)
     
-class UmDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
+class UmDel(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    permission_required='inv.delete_um'
     model = Um
     template_name='inv/catalogo_del.html'
     context_object_name = 'obj'
@@ -285,13 +301,15 @@ def um_inactivar(request, id):
 
 # ################# PRODUCTO ####################
 
-class ProductosView(LoginRequiredMixin, generic.ListView):
+class ProductosView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+    permission_required='inv.view_productos'
     model = Productos
     template_name = "inv/producto_list.html"
     context_object_name = "obj"
     login_url = "bases:login"
     
-class ProductosNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+class ProductosNew(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    permission_required='inv.add_productos'
     model = Productos
     template_name='inv/producto_form_popup.html'
     context_object_name = 'obj'
@@ -304,7 +322,8 @@ class ProductosNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
         form.instance.uc = self.request.user
         return super().form_valid(form)
     
-class ProductosEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
+class ProductosEdit(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    permission_required='inv.change_productos'
     model = Productos
     template_name='inv/producto_form_popup.html'
     context_object_name = 'obj'
@@ -317,7 +336,8 @@ class ProductosEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView)
         form.instance.producto = self.request.user.id
         return super().form_valid(form)
     
-class ProductosDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
+class ProductosDel(SuccessMessageMixin, LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    permission_required='inv.delete_productos'
     model = Productos
     template_name='inv/catalogo_del.html'
     context_object_name = 'obj'
