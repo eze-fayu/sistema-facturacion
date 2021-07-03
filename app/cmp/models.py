@@ -2,6 +2,10 @@ from django.db import models
 from bases.models import ClaseModelo
 from inv.models import Productos              # para vincular con productos
 
+#  para los signals
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+
 # Create your models here.
 
 class Proveedor(ClaseModelo):
@@ -79,3 +83,36 @@ class CompraDetalle(ClaseModelo):
     class Meta:
         verbose_name_plural = "Detalle de Compras"    
         verbose_name = "Detalle de Compra"
+        
+        
+@receiver(post_delete, sender=CompraDetalle)
+def detalle_compra_borrar(sender, instance, **kwargs):
+    id_porducto = instance.producto.id
+    id_compra = instance.compra.id
+    
+    enc = CompraDetalle.objects.filter(pk=id_compra).firs()
+    if enc:
+        sub_total = CompraDetalle.objects.filter(compra=id_compra).aggregate(Sum('sub_total'))
+        descuento = CompraDetalle.objects.filter(compra=id_compra).aggregate(Sum('descuento'))
+        enc.sub_total = sub_total['sub_total__sum']
+        enc.descuento = descuento['descuento__sum']
+        enc.save()
+        
+    prod = Productos.objects.filter(pk=id_producto).first()
+    if prod:
+        cantidad = int(prod.existencia) - int(instance.cantidad)
+        prod.existencia = cantidad
+        prod.save()
+            
+@receiver(post_save, sender=CompraDetalle)
+def detalle_compra_guardar(sender, instance, **kwargs):
+    id_producto = instance.producto.id
+    fecha_compra = instance.compra.fecha_compra
+    
+    prod = Productos.objects.filter(pk=id_producto).first()
+    if prod:
+        cantidad = int(prod.existencia) + int(instance.cantidad)
+        prod.existencia = cantidad
+        prod.ultima_compra = fecha_compra
+        prod.save()
+        

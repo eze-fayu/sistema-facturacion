@@ -310,11 +310,11 @@ class ProductosView(SinPrivilegios, generic.ListView):
 class ProductosNew(SuccessMessageMixin, SinPrivilegios, generic.CreateView):
     permission_required='inv.add_productos'
     model = Productos
-    template_name='inv/producto_form_popup.html'
+    template_name='inv/producto_form.html'
     context_object_name = 'obj'
     form_class = ProductosForm
     success_url = reverse_lazy('inv:productos_list')
-    success_message='Producto creada exitosamente'
+    success_message='Producto creado exitosamente'
     
     def form_valid(self, form):
         form.instance.uc = self.request.user
@@ -323,7 +323,7 @@ class ProductosNew(SuccessMessageMixin, SinPrivilegios, generic.CreateView):
 class ProductosEdit(SuccessMessageMixin, SinPrivilegios, generic.UpdateView):
     permission_required='inv.change_productos'
     model = Productos
-    template_name='inv/producto_form_popup.html'
+    template_name='inv/producto_form.html'
     context_object_name = 'obj'
     form_class = ProductosForm
     success_url = reverse_lazy('inv:productos_list')

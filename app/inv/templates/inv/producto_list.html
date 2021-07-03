@@ -43,7 +43,6 @@
                     <!-- <th>Creado Por</th> -->
                     <!-- <th>Fecha Creación</th> -->
                     <th>Existencia</th>
-                    <th>Ultima Compra</th>
                     <th>Estado</th>
                     <th class="all">Acciones</th>  <!-- clase all hace que se muestre siempre -->
                 </thead>
@@ -61,7 +60,6 @@
                         <!-- <td>{{ item.uc }}</td> -->
                         <!-- <td>{{ item.fc | date:"d/m/Y H:i:s" }}</td> -->   <!--con filtro para formatear la fecha -->
                         <td>{{ item.existencia }}</td>
-                        <td>{{ item.ultima_compra | date:"d/m/Y H:i:s" }}</td>
                         <td>{{ item.estado| yesno:"Activo,Inactivo" }}</td>
                         <td>
                             <!-- <a href="{% url 'inv:productos_edit' item.id %}" class="btn btn-primary btn-circle" role="button"><i class="fas fa-edit"></i></a> -->

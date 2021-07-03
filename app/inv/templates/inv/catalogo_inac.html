@@ -9,7 +9,7 @@
             <form method="POST" role="form" class="form-inline" action="{% url 'inv:um_inactivar' obj.id %}">
         {% elif '/inv/marca/' in request.META.HTTP_REFERER %}
             <form method="POST" role="form" class="form-inline" action="{% url 'inv:marca_inactivar' obj.id %}">
-        {% elif '/inv/producto/' in request.META.HTTP_REFERER %}
+        {% elif '/inv/productos/' in request.META.HTTP_REFERER %}
             <form method="POST" role="form" class="form-inline" action="{% url 'inv:productos_inactivar' obj.id %}">
         {% endif %}
         
