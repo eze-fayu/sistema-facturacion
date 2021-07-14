@@ -1,7 +1,7 @@
 from django.db import models
 from bases.models import ClaseModelo
 from inv.models import Productos              # para vincular con productos
-
+from django.db.models import Sum
 #  para los signals
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
@@ -87,10 +87,10 @@ class CompraDetalle(ClaseModelo):
         
 @receiver(post_delete, sender=CompraDetalle)
 def detalle_compra_borrar(sender, instance, **kwargs):
-    id_porducto = instance.producto.id
+    id_producto = instance.producto.id
     id_compra = instance.compra.id
     
-    enc = CompraDetalle.objects.filter(pk=id_compra).firs()
+    enc = ComprasEnc.objects.filter(pk=id_compra).first()
     if enc:
         sub_total = CompraDetalle.objects.filter(compra=id_compra).aggregate(Sum('sub_total'))
         descuento = CompraDetalle.objects.filter(compra=id_compra).aggregate(Sum('descuento'))
